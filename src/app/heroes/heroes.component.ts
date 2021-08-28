@@ -35,4 +35,21 @@ export class HeroesComponent implements OnInit {
       .subscribe(heroes => this.heroes = heroes);
   }
 
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; } // don't add 
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      })
+  }
+
+  delete(hero: Hero): void{
+    this.heroes = this.heroes.filter(h => h !== hero ); // don't get that selected one (delete it)
+    this.heroService.deleteHero(hero.id).subscribe(); //nothing to do with return observable but it "MUST" subscribe!
+    
+    //Observable does nothing ..until something subscribes
+
+  }
+
 }
